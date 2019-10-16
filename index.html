@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script defer src="https://javascript.info/article/script-async-defer/long.js"></script>
+    <script async>
+    // Температуа С -> F
+        var tempC = +prompt("Введите тепреатуру по Цельсию:");
+        var tempF = (9 / 5) * tempC + 32;
+        alert(tempC +" Градусов по Цельсию это: " + tempF.toFixed(2) + " градусов по Фаренгейту.");
+       
+    // Объявление переменных
+     var name = "Василий";
+        var admin = name;
+        alert(admin);
+        
+     // смена значений двух переменных
+        
+        var a = +prompt("Введите первое число А:"), b = +prompt("Введите второе число B:");
+        alert("Cтартовые значения A=" + a + " и B=" +b);
+        a = a + b;
+        b = a - b;
+        a = a - b;
+        alert("Итоговые значения A=" + a + " B=" +b);
+  
+    </script>
+    
+    <title>Урок 1</title>
+</head>
+<body>
+    
+</body>
+</html>
