@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script>
+//1. С помощью цикла while вывести все простые числа в промежутке от 0 до 100
+        console.log('Здание 1');
+        var j = 2, k, counter, list = "", max = 100;
+        while(j<=max){
+            counter = 0;
+            k = 2;
+            while(k<=j){     
+                if(j % k){
+                    k++;
+                  continue;   
+                 }
+                counter++;
+                k++;
+            }
+            if (counter == 1){
+                list += j + " ";}
+            j++;
+        }
+        console.log(list);
+        
+        
+//2. С этого урока начинаем работать с функционалом интернет-магазина. Предположим, есть сущность корзины. Нужно реализовать функционал подсчета стоимости корзины в зависимости от находящихся в ней товаров.      
+//3. Товары в корзине хранятся в массиве. Задачи:
+//a) Организовать такой массив для хранения товаров в корзине;
+//b) Организовать функцию countBasketPrice, которая будет считать стоимость корзины.
+        
+    document.write('<h2>Задание 2 и 3 (Задание 1,4,5 в консоле)</h2>');    
+    // Наполнение корзины:
+        
+        var cart =[], i = 0, product, cartSum = 0;
+        var minPrice = 10, maxPrice = 100;
+        var minCount = 1, maxCount = 5;
+        
+        function getCart(){
+          for(i; i<5; i++)  {
+                cart[i] =[];
+                  cart[i][0] = "Товар №" + (i + 1);
+              //Задаем случайную цену и количество одного вида товара
+                  cart[i][1] = parseInt(Math.random() * (maxPrice - minPrice) + minPrice);
+                  cart[i][2] = parseInt(Math.random() * (maxCount - minCount) + minCount);  
+          } 
+            return cart;
+        }
+        
+    //Подсчет козины
+        
+        function countBasketPrice(cart){
+            i=0;
+             for(i; i<5; i++)  {
+                //Подсчет стоимости товаров одного типа
+                cart[i][3] = cart[i][1] * cart[i][2]; 
+                //Подсчет суммы корзины
+                cartSum += cart[i][3];
+             }
+    return cart, cartSum;
+        
+        }
+        
+    // Отрисовка корзины
+        function drawCart(cart,cartSum){
+            i=0;
+            document.write('<table border="1" style="text-align: center;width: 500px;height: 200px;"><tr><td>Имя товара</td><td>Цена</td><td>Количество</td><td>Сумма</td></tr>');
+            
+             for(i; i<5; i++)  {
+                document.write("<tr>");
+                 
+                    for(var j = 0; j<4; j++) {
+                        document.write("<td>" + cart[i][j] +"</td>")
+                    }
+                 document.write("</tr>");
+                 }
+            
+            document.write('<tr><td colspan="3" align="right">Итого:</td><td>' + cartSum + " &#8381;</td></tr></table>");
+        }
+        
+    //выпонение
+        
+        getCart();
+        countBasketPrice(cart);
+        drawCart(cart,cartSum);
+        
+        
+        
+        
+        
+//4.*Вывести с помощью цикла for числа от 0 до 9, не используя тело цикла. Выглядеть это должно так:
+//for(…){// здесь пусто}
+
+        console.log('Здание 4');
+        var i = 0;
+        for (i;i<10;console.log(i++)){}
+        
+//5) *Нарисовать пирамиду с помощью console.log, как показано на рисунке, только у вашей пирамиды должно быть 20 рядов, а не 5:
+//  x
+//  xx
+//  xxx
+//  xxxx
+//  xxxxx
+        console.log('Здание 5');
+        var x = 1, p = "";
+        for (x;x<=20;x++){
+            p += "X"; 
+            console.log(p + " " + p.length);
+        }
+    </script>
+    <title>Урок 3</title>
+</head>
+<body>
+</body>
+</html>
