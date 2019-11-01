@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Урок 5</title>
+</head>
+<body>
+
+
+<script>
+    
+    function chessTable(){
+        //Генерация <Table>
+        var table = document.createElement("table"); 
+        table.className = "chessboard";
+        document.body.prepend(table);
+        
+        //создание элемента <tr>
+        var tr = document.createElement("tr");
+        
+       //создани е элемента <td>
+        var td = document.createElement("td");
+        
+        //Генерация ячеек
+          for(let i=0; i<10;i++){
+        tr.appendChild(td.cloneNode());
+            }
+            for(let i=0; i<10;i++){
+        table.appendChild(tr.cloneNode(true));
+            }
+        
+        //создание нумерации ячеек
+        //Буквы
+        var arrayLetters = ["A", "B", "C", "D", "E", "F", "G", "H"];
+        for(let i=2; i<10;i++){
+              
+               document.querySelector(".chessboard tr:first-of-type td:nth-of-type(" + i +")").innerHTML = "<p>" + arrayLetters[i - 2] + "</p>"; 
+               document.querySelector(".chessboard tr:last-of-type td:nth-of-type(" + i +")").innerText = arrayLetters[i - 2]; 
+           }
+        //цифры
+        for(let i=2; i<10;i++){
+               document.querySelector(".chessboard tr:nth-last-of-type(" + i +") " + "td:first-of-type").innerText = i-1; 
+               document.querySelector(".chessboard tr:nth-last-of-type(" + i +") " + "td:last-of-type").innerHTML = "<p>" + (i-1) + "</p>";
+           }
+        //добавление классов для стилизации
+        table.children[0].className = "letters";
+        table.children[9].className = "letters";
+      
+    }
+    
+    chessTable();
+    </script>
+</body>
+</html>
