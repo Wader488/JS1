@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .container {
+            margin: 0 auto;
+            width: 1000px;
+            margin-bottom: 50px;
+        }
+
+        .cart {
+            outline: solid 2px black;
+        }
+
+        .products_grid {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .product_card {
+            width: 200px;
+            height: 350px;
+        }
+
+        .product_card>p:nth-child(2),
+        p:nth-child(3) {
+            display: inline-block;
+        }
+
+        .product_id {
+            margin-left: 10px;
+        }
+
+        .product_card img {
+            max-width: 100%;
+        }
+
+        .cart td {
+            width: 100px;
+        }
+
+        .itog {
+            font-weight: 800;
+        }
+
+    </style>
+    <title>Урок 6</title>
+</head>
+
+<body>
+
+    <script>
+        //База данных товаров
+        var dbCart = [];
+        var dbProducts = [{
+                id: 1001,
+                name: "Product 1",
+                image: "1small.jpg",
+                price: 100
+            },
+            {
+                id: 1002,
+                name: "Product 2",
+                image: "2small.jpg",
+                price: 200
+            },
+            {
+                id: 1003,
+                name: "Product 3",
+                image: "3small.jpg",
+                price: 300
+            }
+            // ,
+            //{
+            //   id: 1004,
+            //   name: "Product 4",
+            //   image: "2small.jpg",
+            //   price: 400
+            //}
+        ];
+
+        function draw() {
+
+            var drawProductsGrid = document.createElement("div");
+            drawProductsGrid.className = "products_grid";
+
+            //Генерация карточек товара product_card
+            for (let i = 0; i < dbProducts.length; i++) {
+
+                var drawProductCard = document.createElement("div");
+                drawProductCard.className = "product_card";
+
+                var nameProduct = document.createElement("p");
+                var idProduct = document.createElement("p");
+                idProduct.className = "product_id";
+                var imgProduct = document.createElement("img");
+                var priceProduct = document.createElement("p");
+
+                nameProduct.innerText = dbProducts[i].name;
+                idProduct.innerText = dbProducts[i].id;
+                imgProduct.src = "img/" + dbProducts[i].image;
+                priceProduct.innerText = "Стоимость: " + dbProducts[i].price;
+
+                drawProductCard.append(nameProduct);
+                drawProductCard.insertAdjacentHTML('beforeend', '<p>Артикул:</p>');
+                drawProductCard.append(idProduct);
+                drawProductCard.append(imgProduct);
+                drawProductCard.append(priceProduct);
+                drawProductCard.insertAdjacentHTML('beforeend', '<button class="buy" id="clearcart">Купить</button>');
+
+                drawProductsGrid.append(drawProductCard);
+
+            }
+
+            return drawProductsGrid;
+
+        }
+
+        function addToCart(e) {
+            //Получаем товар, для которого была нажата кнопка купить
+            var product = (e.target).parentNode;
+            //console.log(product);
+
+            //получаем id товара
+            var searchId = +(product.getElementsByClassName("product_id"))[0].innerText;
+            //console.log(searchId);
+
+            //ищем товар по id в базе данных dbProducts
+            var productid = dbProducts.findIndex(x => x.id === searchId);
+            //console.log(productid);
+
+            let countProduct = 0;
+            var cartProductId = dbCart.findIndex(x => x.id === searchId);
+            //вносим покупки в корзину
+            //проверка на пустую корзину, если пустаю добавляем товар
+            if (dbCart.length == 0) {
+                //console.log(dCbart.findIndex(x => x.id === searchId)); 
+                dbCart.push({
+                    id: searchId,
+                    count: ++countProduct,
+                    summ: dbProducts[productid].price
+                });
+                drawCartAdd();
+
+
+            } else {
+                //если корзина не пустая, проверяем наличие этого товара в корзине, если найден увеличиваем число на 1
+
+
+                if (cartProductId != -1) {
+                    dbCart[cartProductId].count = ++dbCart[cartProductId].count;
+                    drawCartUpdate();
+                } else {
+                    dbCart.push({
+                        id: searchId,
+                        count: ++countProduct,
+                        summ: dbProducts[productid].price
+                    });
+                    drawCartAdd();
+                }
+            }
+
+
+            //добавляем новый товар в корзину и обновляем итог
+            function drawCartAdd() {
+                drawCartTbody.insertAdjacentHTML('beforeend', '<tr><td>' + dbProducts[productid].name + '</td><td>1</td><td>' + dbProducts[productid].price + '</td></tr>');
+
+
+                drawUpdateItog();
+
+
+
+            }
+
+            function drawCartUpdate() {
+
+
+                //высчитываем и вписываем сумму в базу dbCart
+                dbCart[cartProductId].summ = dbCart[cartProductId].count * dbProducts[productid].price;
+                //обновление строк в корзине
+                var updateNode = drawCartTbody.children[cartProductId + 1];
+
+
+                var newNode = document.createElement("tr");
+                var td = document.createElement("td");
+                newNode.innerHTML = "<td>" + dbProducts[productid].name + "</td>";
+                newNode.insertAdjacentHTML('beforeend', "<td>" + dbCart[cartProductId].count + "</td>");
+                newNode.insertAdjacentHTML('beforeend', "<td>" + dbCart[cartProductId].summ + "</td>");
+                updateNode.replaceWith(newNode);
+
+                drawUpdateItog();
+
+            }
+
+            function drawUpdateItog() {
+                itog = 0;
+                for (let i = 0; i < dbCart.length; i++) {
+                    itog = itog + dbCart[i].summ;
+                }
+
+
+                //обновление итоговой суммы
+                let updateItog = drawCartTable.lastChild;
+
+                let newItog = document.createElement("tr");
+                newItog.className = "itog";
+                newItog.insertAdjacentHTML('beforeend', '<td>Итого:</td><td colspan="2">' + itog + '</td>');
+                updateItog.replaceWith(newItog);
+
+            }
+
+
+        }
+
+
+        var drawСontainer = document.createElement("div");
+        drawСontainer.className = "container";
+
+        var drawСart = document.createElement("div");
+        drawСart.className = "cart";
+
+        var drawCartTable = document.createElement("table");
+        var drawCartTbody = document.createElement("tbody");
+        drawCartTable.append(drawCartTbody);
+        drawCartTbody.insertAdjacentHTML('beforeend', '<tr><td>Продукт</td><td>Кол-во.</td><td>Цена</td></tr>');
+        var itog = 0;
+        drawCartTable.insertAdjacentHTML('beforeend', '<tr class="itog"><td>Итого:</td><td colspan="2">' + itog + '</td></tr>');
+        drawСart.append(drawCartTable);
+
+        drawСontainer.append(drawСart);
+
+        //Вызов функции Draw
+        drawСontainer.append(draw());
+
+        document.body.prepend(drawСontainer);
+
+
+        //Создание EventListener для всех кнопок "Купить"
+        var buyEveList = document.getElementsByClassName("buy");
+        for (let i = 0; i < dbProducts.length; i++) {
+            buyEveList[i].addEventListener('click', addToCart);
+        }
+
+    </script>
+</body>
+
+</html>

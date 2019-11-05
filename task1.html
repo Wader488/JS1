@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-evenly;
+            margin-bottom: 50px;
+        }
+
+        .container div {
+
+            width: 300px;
+            height: 200px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: right;
+        }
+
+        #img1 {
+            background-image: url(img/1small.jpg);
+        }
+
+        #img2 {
+            background-image: url(img/2small.jpg);
+        }
+
+        #img3 {
+            background-image: url(img/3small.jpg);
+        }
+
+        #display{
+            margin-top: 50px;
+            margin: 0 auto;
+            width: 600px;
+            height: 600px;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    </style>
+    <title>Урок 6</title>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div id="img1" onclick="imgLoad(this.id)"></div>
+        <div id="img2" onclick="imgLoad(this.id)"></div>
+        <div id="img3" onclick="imgLoad(this.id)"></div>
+    </div>
+
+    <div id="display">
+
+    </div>
+
+    <script>
+     
+        function imgLoad(id){
+            if(id[3] < 3){
+            document.getElementById("display").style.backgroundImage = 'url(img/' + id[3]+ '.jpg)';
+            } else {
+                alert("Фотография не найдена");
+            }
+            
+        }
+
+    </script>
+</body>
+
+</html>
